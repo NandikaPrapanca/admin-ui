@@ -39,9 +39,9 @@ const fetchGoals = async () => {
   }
 };
 
-useEffect(() => {
-  fetchGoals();
-}, []);
+  useEffect(() => {
+    fetchGoals();
+  }, []);
 
 fetchGoals();
 
