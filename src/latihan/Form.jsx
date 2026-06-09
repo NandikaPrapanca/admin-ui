@@ -15,7 +15,7 @@ const Form = () => {
     );
 
     console.log(response.data);
-    localStorage.setItem("token", response.data.refreshToken);
+    localStorage.setItem("token", response.data.refreshToken);    
   } catch (error) {
     console.error(error);
   }
