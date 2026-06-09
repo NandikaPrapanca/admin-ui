@@ -1,14 +1,26 @@
+// import { StrictMode } from "react";
+// import { createRoot } from "react-dom/client";
+// import "./index.css";
+// import App from "./App.jsx";
+// import { ThemeContextProvider } from "./context/themeContext.jsx";
+
+// createRoot(document.getElementById("root")).render(
+//   <StrictMode>
+//   <ThemeContextProvider>
+//     <App />
+//   </ThemeContextProvider>
+//   </StrictMode>,
+// );
+
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import { ThemeContextProvider } from "./context/themeContext.jsx";
+import Form from "./latihan/Form.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-  <ThemeContextProvider>
-    <App />
-  </ThemeContextProvider>
+    <Form />
   </StrictMode>,
 );
 
