@@ -8,6 +8,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIxOCwib
 Content-Type: application/json
 
 {
-  "target_amount": 5000,
-  "present_amount": 2100
+  "target_amount": 19000000,
+  "present_amount": 2000700
 }
