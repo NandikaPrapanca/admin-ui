@@ -43,8 +43,6 @@ const fetchGoals = async () => {
     fetchGoals();
   }, []);
 
-fetchGoals();
-
   return (
     <div className="p-4">
       <form onSubmit={handleSubmit}>
