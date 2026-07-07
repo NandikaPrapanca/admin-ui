@@ -46,3 +46,64 @@ html {
 .theme-brown {
   --color-primary: #8b4513;
 }
+
+/* Dark mode: override background dan text colors */
+.dark-mode {
+  --color-special-mainBg: #3a3a3a;
+  --color-special-bg: rgba(255, 255, 255, 0.08);
+  --color-gray-05: #555555;
+  --color-gray-03: #aaaaaa;
+  --color-gray-02: #cccccc;
+  --color-gray-01: #eeeeee;
+  background-color: #3a3a3a;
+  color: #ffffff;
+}
+
+/* Auth page dark: seluruh container */
+.dark-mode.bg-special-mainBg,
+.dark-mode {
+  background-color: #3a3a3a !important;
+}
+
+/* Card putih di dalam dark mode */
+.dark-mode .bg-white {
+  background-color: #2e2e2e !important;
+  color: #ffffff;
+}
+
+/* Label teks di dalam dark mode */
+.dark-mode label {
+  color: #eeeeee !important;
+}
+
+/* Input field di dalam dark mode */
+.dark-mode input[type="text"],
+.dark-mode input[type="email"],
+.dark-mode input[type="password"] {
+  background-color: #2e2e2e !important;
+  border-color: #888888 !important;
+  color: #ffffff !important;
+}
+
+.dark-mode input[type="text"]::placeholder,
+.dark-mode input[type="email"]::placeholder,
+.dark-mode input[type="password"]::placeholder {
+  color: #888888 !important;
+}
+
+.dark-mode input[type="text"]:focus,
+.dark-mode input[type="email"]:focus,
+.dark-mode input[type="password"]:focus {
+  border-color: #ffffff !important;
+}
+
+/* main background */
+.dark-mode .bg-special-mainBg {
+  background-color: #3a3a3a !important;
+}
+
+/* Google button di dark mode */
+.dark-mode .bg-gray-05 {
+  background-color: #444444 !important;
+  color: #eeeeee !important;
+}

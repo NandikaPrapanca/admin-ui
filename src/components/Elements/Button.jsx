@@ -1,9 +1,9 @@
 import React from "react";
 
 const Button = (props) => {
-  const { children, type = "submit", variant = "primary" } = props;
+  const { children, type = "submit", variant = "primary", disabled = false } = props;
 
-  const baseClasses = "h-12 rounded-md text-sm w-full cursor-pointer hover:scale-105";
+  const baseClasses = "h-12 rounded-md text-sm w-full cursor-pointer hover:scale-105 disabled:opacity-60 disabled:cursor-not-allowed disabled:scale-100";
   const variantClasses = {
     primary: "bg-primary text-white",
     secondary: "bg-gray-05 text-gray-02",
@@ -13,7 +13,7 @@ const Button = (props) => {
 
   return (
     <>
-      <button className={finalCalsses} type={type}>
+      <button className={finalCalsses} type={type} disabled={disabled}>
         {children}
       </button>
     </>

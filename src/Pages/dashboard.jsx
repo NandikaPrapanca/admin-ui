@@ -8,10 +8,8 @@ import CardStatistic from '../components/Fragments/CardStatistic';
 import CardExpenseBeakdown from '../components/Fragments/CardExpenseBeakdown';
 import {
   transactions,
-  bills,
   expensesBreakdowns,
   balances,
-  goals,
   expensesStatistics,
 } from "../data";
 import { goalService } from '../services/dataService';
@@ -64,7 +62,7 @@ const fetchGoals = async () => {
             <CardGoal data={goals}/>
           </div>
           <div className="sm:col-span-4">
-            <CardUpcomingBill data={bills} />
+            <CardUpcomingBill />
           </div>
         <div className="sm:col-span-4 sm:row-span-2">
             <CardRecentTransaction data={transactions}/>

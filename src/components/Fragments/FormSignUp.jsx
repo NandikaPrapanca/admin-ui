@@ -1,62 +1,125 @@
 import React from "react";
 import LabeledInput from "../Elements/LabeledInput";
-import Checkbox from "../Elements/CheckBox";
 import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
-const FromSignUp = () => {
+const SignUpSchema = Yup.object().shape({
+  name: Yup.string().required("Nama wajib diisi"),
+  email: Yup.string().email("Email tidak valid").required("Email wajib diisi"),
+  password: Yup.string()
+    .min(6, "Password minimal 6 karakter")
+    .required("Password wajib diisi"),
+});
+
+const FromSignUp = ({ onSubmit }) => {
   return (
     <>
       {/* form start */}
       <div className="mt-16">
-        <form action="">
-          <div className="mb-6">
-            <LabeledInput
-              className="p-2 w-full"
-              label="Name"
-              id="name"
-              type="text"
-              placeholder="Nandika Rizki Prapanca"
-              name="name"
-            />
-          </div>
-          <div className="mb-6">
-            <LabeledInput
-              className="p-2 w-full"
-              label="Email Address"
-              id="email"
-              type="email"
-              placeholder="hello@example.com"
-              name="email"
-            />
-          </div>
-          <div className="mb-6">
-            <LabeledInput
-              className="p-2 w-full"
-              label="Password"
-              id="password"
-              type="password"
-              placeholder="********"
-              name="pasword"
-            />
-          </div>
-          <div className="mb-3">
-            <p className="flex items-center gap-2 text-gray-02">
-              By continuing, you agree to our
-              <span className="text-primary">term of services</span>
-            </p>
-          </div>
-          <Button>Sign Up</Button>
-        </form>
+        <Formik
+          initialValues={{
+            name: "",
+            email: "",
+            password: "",
+          }}
+          validationSchema={SignUpSchema}
+          onSubmit={async (values, { setSubmitting }) => {
+            try {
+              await onSubmit(values.name, values.email, values.password);
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {/* NAME */}
+              <div className="mb-6">
+                <Field name="name">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="name"
+                      type="text"
+                      label="Name"
+                      placeholder="Nandika Rizki Prapanca"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="name"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+
+              {/* EMAIL */}
+              <div className="mb-6">
+                <Field name="email">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="email"
+                      type="email"
+                      label="Email Address"
+                      placeholder="hello@example.com"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="email"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+
+              {/* PASSWORD */}
+              <div className="mb-6">
+                <Field name="password">
+                  {({ field }) => (
+                    <LabeledInput
+                      {...field}
+                      id="password"
+                      type="password"
+                      label="Password"
+                      placeholder="********"
+                    />
+                  )}
+                </Field>
+                <ErrorMessage
+                  name="password"
+                  component="p"
+                  className="text-red-500 text-xs mt-1"
+                />
+              </div>
+
+              {/* TERMS */}
+              <div className="mb-3">
+                <p className="flex items-center gap-2 text-gray-02">
+                  By continuing, you agree to our
+                  <span className="text-primary">term of services</span>
+                </p>
+              </div>
+
+              {/* BUTTON */}
+              <Button disabled={isSubmitting}>
+                {isSubmitting ? "Loading..." : "Sign Up"}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
       {/* form end */}
-      {/* teks start */}
+
+      {/* divider */}
       <div className="my-9 px-7 flex flex-col justify-center items-center text-xs text-gray-03">
         <div className="border border-gray-05 w-full"></div>
         <div className="px-2 bg-special-mainBg absolute"> or sign in with</div>
       </div>
-      {/* teks end */}
-      {/* sign in with google start */}
+
+      {/* sign in with google */}
       <div className="mb-8">
         <Button type="button" variant="secondary">
           <span className="flex items-center justify-center">
@@ -78,7 +141,7 @@ const FromSignUp = () => {
                 fill="#EB4335"
               />
               <path
-                d="M23.7136364,37.8666667 C17.5491591,37.8666667 12.3545909,33.888 10.5322727,28.3562667 L2.62345455,34.3946667 C6.44540909,42.1557333 14.4268636,47.4666667 23.7136364,47.4666667 C29.4455,47.4666667 34.9177955,45.4314667 39.0249545,41.6181333 L31.5177727,35.8144 C29.3995682,37.1488 26.7323182,37.8666667 23.7136364,37.8666667"
+                d="M23.7136364,37.8666667 C17.5491591,37.8666667 12.3545909,33.888 10.5322727,28.3562667 L2.62345455,34.3946667 C6.44540909,42.1557333 14.4268636,47.4666667 23.7136364,47.4666667 C29.4455,47.4266667 34.9177955,45.4314667 39.0249545,41.6181333 L31.5177727,35.8144 C29.3995682,37.1488 26.7323182,37.8666667 23.7136364,37.8666667"
                 fill="#34A853"
               />
               <path
@@ -90,21 +153,14 @@ const FromSignUp = () => {
           </span>
         </Button>
       </div>
-      {/* sign in with google end */}
-      {/* link start */}
+
+      {/* link to sign in */}
       <div className="flex justify-center items-center gap-2 text-gray-02">
         <p>Already have acount?</p>
         <Link to="/login" className="text-primary text-sm font-bold">
-            Sign in here
+          Sign in here
         </Link>
       </div>
-      {/* link end */}
-      {/* sign in with google start */}
-      <div></div>
-      {/* sign in with google end */}
-      {/* link start */}
-      <div></div>
-      {/* link end */}
     </>
   );
 };

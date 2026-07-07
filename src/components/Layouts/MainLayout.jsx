@@ -7,6 +7,13 @@ import { NavLink } from "react-router-dom";
 import { ThemeContext } from "../../context/themeContext";
 import { AuthContext } from "../../context/authContext";
 import { logoutService } from "../../services/authService";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
 
 function MainLayout(props) {
@@ -20,7 +27,7 @@ function MainLayout(props) {
   { name: "theme-brown", bgcolor: "bg-[#8B4513]", color: "#8B4513" },
 ];
 
-const { theme, setTheme }= useContext(ThemeContext);
+const { theme, setTheme, darkMode, toggleDarkMode } = useContext(ThemeContext);
 
   const menu = [
     { id: 1, name: "Overview", icon: <Icon.Overview />, link: "/" },
@@ -34,21 +41,42 @@ const { theme, setTheme }= useContext(ThemeContext);
 
   const { user, logout } = useContext(AuthContext);
 
-  	  const handleLogout = async () => {
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
     try {
       await logoutService();
-      logout(); 
     } catch (err) {
       console.error(err);
-      if (err.status === 401) {
-        logout();
-      }
+    } finally {
+      logout();
+      // Backdrop akan hilang otomatis karena logout() unmount komponen ini
     }
   };
 
   return (
     <>
-	    <div className={`flex min-h-screen ${theme.name}`}>
+      {/* Backdrop logout */}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (muiTheme) => muiTheme.zIndex.drawer + 9999 }}
+        open={loggingOut}
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+        >
+          <CircularProgress color="inherit" />
+          <Typography variant="h6" color="inherit" sx={{ mt: 2 }}>
+            Logging Out
+          </Typography>
+        </Box>
+      </Backdrop>
+
+	    <div className={`flex min-h-screen ${theme.name} ${darkMode ? "dark-mode" : ""}`}>
 			<aside 
             className="bg-defaultBlack w-28 sm:w-64 text-special-bg2 flex flex-col justify-between px-7 py-12">
         <div>
@@ -75,8 +103,8 @@ const { theme, setTheme }= useContext(ThemeContext);
             </nav>
 		</div>
     					<div>
-            Themes
-            <div className="flex flex-col sm:flex-row gap-2 items-center">
+            <span className="text-xs">Themes</span>
+            <div className="flex flex-col sm:flex-row gap-2 items-center mt-1">
               {themes.map((t) => (
                 <div
                   key={t.name}
@@ -84,6 +112,22 @@ const { theme, setTheme }= useContext(ThemeContext);
                   onClick={() => setTheme(t)}
                 ></div>
               ))}
+            </div>
+            {/* Dark mode toggle — IconButton */}
+            <div className="flex items-center gap-2 mt-1">
+              <IconButton
+                onClick={toggleDarkMode}
+                size="small"
+                sx={{ color: "rgba(255,255,255,0.7)", p: 0.5 }}
+                aria-label="toggle dark mode"
+              >
+                {darkMode ? (
+                  <LightModeIcon fontSize="small" />
+                ) : (
+                  <DarkModeIcon fontSize="small" />
+                )}
+              </IconButton>
+              <span className="text-xs hidden sm:inline">Dark Mode</span>
             </div>
           </div>
 		<div>
